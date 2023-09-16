@@ -1,8 +1,8 @@
-title: AIHub Bundle Example
-description: Some description here
-image: logo.png
+title: UCC AI Quest 2023
+description: Working on AI solutions together
+# image: logo.png
 has_registration: True
-end_date: 2020-11-30
+end_date: 2023-10-18
 html:
     overview: overview.html
     evaluation: evaluation.html
@@ -11,25 +11,10 @@ html:
 phases:
     1:
         phasenumber: 1
-        label: "Warm Up"
-        color: green
-        start_date: 2020-10-21
-        max_submissions: 10
-        scoring_program: scoring_program.zip
-        reference_data: warmup_ground_truth.zip
-        datasets:
-            1:
-                name: Training set
-                url: https://example.com/
-            2: 
-                name: Test set
-                url: https://example.com/
-    2:
-        phasenumber: 2
         label: "Public Test"
         color: yellow
-        start_date: 2020-10-26
-        max_submissions: 10
+        start_date: 2023-09-16
+        max_submissions: 5
         scoring_program: scoring_program.zip
         reference_data: public_ground_truth.zip
         datasets:
@@ -39,11 +24,11 @@ phases:
             2: 
                 name: Test set
                 url: https://example.com/
-    3:
-        phasenumber: 3
+    2:
+        phasenumber: 2
         label: "Private Test"
         color: orange
-        start_date: 2020-11-28
+        start_date: 2023-10-14
         max_submissions: 5
         scoring_program: scoring_program.zip
         reference_data: private_ground_truth.zip
@@ -55,8 +40,36 @@ leaderboard:
             label: Results
             rank: 1
     columns:
-        ROC:
+        high_vegetation__IoU:
             leaderboard: *RESULTS
-            label: ROC
+            label: High Vegetation IoU
             rank: 1
-            numeric_format: 1
+            numeric_format: 2
+        high_vegetation__Acc:
+            leaderboard: *RESULTS
+            label: High Vegetation Acc
+            rank: 2
+            numeric_format: 2
+        background__IoU:
+            background__IoU:
+            leaderboard: *RESULTS
+            label: Background IoU
+            rank: 3
+            numeric_format: 2
+        background__Acc:
+            background__Acc:
+            leaderboard: *RESULTS
+            label: Background Acc
+            rank: 4
+            numeric_format: 2
+        mIoU:
+            leaderboard: *RESULTS
+            label: mIoU
+            rank: 5
+            numeric_format: 2
+        mAcc:
+            leaderboard: *RESULTS
+            label: mAcc
+            rank: 6
+            numeric_format: 2
+        

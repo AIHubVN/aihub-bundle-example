@@ -1,2 +1,2 @@
 command: python $program/evaluate.py $input $output
-description: AIHub VN Bundle Example
+description: UCC AI Quest 2023
