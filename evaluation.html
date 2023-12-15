@@ -1,2 +1,31 @@
-<p><strong>Result submission</strong>&nbsp;</p>
-<p>Write some description below. This can also be edited using the web interface after uploading the package</p>
+<p><strong>Result Submission</strong>&nbsp;</p>
+<p>In each phase, the participants are required to develop models to predict <strong>high vegetation (class 1)</strong> vs <strong>background (class 0).</strong></p>
+<p>The submission file must be <strong>results.zip </strong>that contains a <strong>results.json </strong>file. The example format of the results.json file is given <a href="https://drive.google.com/file/d/1QmvJLIQ6uOP3proPFIcjDSR-tA5rAxhc/view?usp=share_link">here</a>&nbsp;and also listed below</p>
+<div><em>{</em><br /><em>&nbsp; &nbsp; "DJI_0042_342.JPG": {</em><br /><em>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "counts": [4, 10, 4, 101, 203, ...],</em></div>
+<div><em>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "height": 384,</em></div>
+<div><em>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "width": 640</em></div>
+<div><em>&nbsp; &nbsp; },</em></div>
+<p><em>&nbsp; &nbsp; "DJI_0062_275.JPG": {</em><br /><em>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "counts": [8, 20, 400, 101, 203, ...],</em><br /><em>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "height": 380,</em><br /><em> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "width": 740</em></p>
+<p><em>&nbsp; &nbsp; &nbsp;},</em></p>
+<p><em>&nbsp; &nbsp; ...</em><br /><em>}</em></p>
+<p>Here, the field "counts" is the Run-length encoding (<a title="RLE" href="https://en.wikipedia.org/wiki/Run-length_encoding">RLE</a>) of the predicted binary mask. For example, if the RGB image's dimension is 348 x 512 x 3 (w x h x c), the predicted mask should be a 2 dimension array 348 x 512 and the mask can be converted to an RLE array using the sample Python code below:</p>
+<div>
+<div><span>=====</span></div>
+<div>&nbsp;</div>
+<div><span>def</span> <span>mask_to_rle</span>(<span>mask</span>: <span>np</span>.<span>ndarray</span>):</div>
+<div><span>&nbsp; &nbsp; """</span></div>
+<div><span>&nbsp; &nbsp; Convert a binary mask to RLE format.</span></div>
+<div><span>&nbsp; &nbsp; :param mask: numpy array, 1 - mask, 0 - background</span></div>
+<div><span>&nbsp; &nbsp; :return: RLE array</span></div>
+<div><span>&nbsp; &nbsp; """</span></div>
+<div>&nbsp; &nbsp; pixels <span>=</span> <span>mask</span>.T.<span>flatten</span>()</div>
+<div>&nbsp; &nbsp; pixels <span>=</span> <span>np</span>.<span>concatenate</span>([[<span>0</span>], pixels, [<span>0</span>]])</div>
+<div>&nbsp; &nbsp; runs <span>=</span> <span>np</span>.<span>where</span>(pixels[<span>1</span>:] <span>!=</span> pixels[:<span>-</span><span>1</span>])[<span>0</span>] <span>+</span> <span>1</span></div>
+<div>&nbsp; &nbsp; runs[<span>1</span>::<span>2</span>] <span>-=</span> runs[::<span>2</span>]</div>
+<div><span>&nbsp; &nbsp; return</span> [<span>int</span>(x) <span>for</span> x <span>in</span> runs]</div>
+</div>
+<p>=====</p>
+<p><strong>Evaluation Metric</strong></p>
+<p>The results shall be evaluated using Intersection over Union (<a title="IoU" href="https://en.wikipedia.org/wiki/Jaccard_index">IoU</a>) for <strong>high vegetation (class 1).</strong></p>
+<p><strong>Example Code and Baseline</strong></p>
+<p>&nbsp;<a href="https://colab.research.google.com/drive/1wYK6JKU470jUQxJ8O8R2Vx1xVnJjAjpd">https://colab.research.google.com/drive/1wYK6JKU470jUQxJ8O8R2Vx1xVnJjAjpd</a></p>
